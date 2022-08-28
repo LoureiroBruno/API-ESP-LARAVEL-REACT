@@ -22,7 +22,7 @@ class AdicionarAluno extends Component
         });
     }
     
-    saveStudent = async (e) => {
+    saveAluno = async (e) => {
         e.preventDefault();
 
         const res = await axios.post('http://localhost:8000/api/alunos', this.state);
@@ -66,7 +66,7 @@ class AdicionarAluno extends Component
                                 </h2>
                             </div>
                             <div className="card-body">
-                                <form onSubmit={this.saveStudent}>
+                                <form onSubmit={this.saveAluno}>
                                     <div className="form-group mb-3">
                                         <label>Nome</label>
                                         <input type="text" name="nome" onChange={this.handleInput} value={this.state.nome} class="form-control" placeholder='Informe o nome completo.'></input>

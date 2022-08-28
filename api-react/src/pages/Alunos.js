@@ -23,7 +23,7 @@ class Alunos extends Component
         }
     }
 
-    deleteStudent = async (e, id) => {
+    deleteAluno = async (e, id) => {
 
         const thidClickedFunda = e.currentTarget;
         thidClickedFunda.innerText = "Exluindo";
@@ -64,7 +64,7 @@ class Alunos extends Component
                         <td>
                             <div class="d-grid gap-3 d-md-flex justify-content-md-start">
                                 <Link to={`alunos/${item.id}`} className="btn btn-outline-secondary btn-sm">Editar</Link>
-                                <button type="button" onClick={(e) => this.deleteStudent(e, item.id)} className="btn btn-outline-danger btn-sm">Excluir</button>
+                                <button type="button" onClick={(e) => this.deleteAluno(e, item.id)} className="btn btn-outline-danger btn-sm">Excluir</button>
                             </div>
                         </td>
                     </tr>

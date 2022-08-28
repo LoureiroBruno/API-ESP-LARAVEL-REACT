@@ -53,7 +53,7 @@ class EditarAluno extends Component
         }
     }
 
-    updateStudent = async (e) => {
+    updateAluno = async (e) => {
         e.preventDefault();
 
         document.getElementById('updatebtn').disabled = true;
@@ -105,7 +105,7 @@ class EditarAluno extends Component
                                 </h2>
                             </div>
                             <div className="card-body">
-                                <form onSubmit={this.updateStudent}>
+                                <form onSubmit={this.updateAluno}>
                                     <div className="form-group mb-3">
                                         <label>Nome</label>
                                         <input type="text" name="nome" onChange={this.handleInput} value={this.state.nome} class="form-control"></input>
