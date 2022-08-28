@@ -18,7 +18,7 @@ return new class extends Migration
             $table->year('ano_de_execução')->nullable();
             $table->enum('nível_de_ensino', ['Fundamental', 'Médio'])->nullable();
             $table->string('série', 10)->nullable();
-            $table->string('turno', 5)->nullable();
+            $table->enum('turno', ['Manhã', 'Tarde', 'Noite'])->nullable();
             $table->timestamps();
         });
     }

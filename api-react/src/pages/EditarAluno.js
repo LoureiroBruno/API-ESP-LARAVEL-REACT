@@ -2,9 +2,14 @@ import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 import swal from 'sweetalert';
+import { IMaskInput } from "react-imask";
 
-class Addstudent extends Component 
+class EditarAluno extends Component 
 {
+    genero = {
+        masculino: 'Masculino',
+        feminino: 'Feminino'
+      };
 
     state = {
         nome: '',
@@ -21,35 +26,70 @@ class Addstudent extends Component
         });
     }
     
-    saveStudent = async (e) => {
+    async componentDidMount() {
+        const stud_id = this.props.match.params.id;
+
+        const res = await axios.get(`http://localhost:8000/api/alunos/${stud_id}`);
+
+        if (res.data.status === 200) 
+        {
+            this.setState({
+                nome: res.data.student.nome,
+                telefone: res.data.student.telefone,
+                e_mail: res.data.student.e_mail,
+                data_de_nascimento: res.data.student.data_de_nascimento,
+                genero: res.data.student.genero,
+            })
+        }
+        else if(res.data.status === 404)
+        {
+            swal({
+                title: "Alerta!",
+                text: res.data.message,
+                icon: "warning",
+                buttons: "OK"
+            });
+            this.props.history.push('/');
+        }
+    }
+
+    updateStudent = async (e) => {
         e.preventDefault();
 
-        const res = await axios.post('http://localhost:8000/api/alunos', this.state);
+        document.getElementById('updatebtn').disabled = true;
+        document.getElementById('updatebtn').innerText = "Atualizando os dados";
+        const stud_id = this.props.match.params.id;
+        const res = await axios.put(`http://localhost:8000/api/alunos/${stud_id}`, this.state);
 
-        if(res.data.status === 201)
+        if(res.data.status === 204)
         {
-            // console.log(res.data.message);
             swal({
-                title: "Cadastrado!",
+                title: "Atualizado!",
                 text: res.data.message,
                 icon: "success",
                 buttons: "OK"
             })
 
-            this.props.history.push('/');
-            this.setState({
-                nome: '',
-                telefone: '',
-                e_mail: '',
-                data_de_nascimento: '',
-                genero: '',
-            });
+            document.getElementById('updatebtn').disabled = false;
+            document.getElementById('updatebtn').innerText = "Atualizando os dados";
+            this.props.history.push('/alunos');
         } 
-        else 
+        else if (res.data.status === 404)
+        {
+            swal({
+                title: "Warning!",
+                text: res.data.message,
+                icon: "warning",
+                buttons: "OK"
+            });
+            this.props.history.push('/alunos');
+        } else 
         {
             this.setState({
                 error_list: res.data.validate_err,
             })
+            document.getElementById('updatebtn').disabled = false;
+            document.getElementById('updatebtn').innerText = "Atualizando os dados";
         }
     }
 
@@ -60,12 +100,12 @@ class Addstudent extends Component
                     <div className="col-md-6">
                         <div className="card">
                             <div className="card-header">
-                                <h4>Adicionar Aluno
-                                    <Link to={'/'} className="btn btn-danger btn-sm float-end">Fechar</Link>
-                                </h4>
+                                <h2>Editar Aluno
+                                    <Link to={'/alunos'} className="btn btn-danger btn-sm float-end">Fechar</Link>
+                                </h2>
                             </div>
                             <div className="card-body">
-                                <form onSubmit={this.saveStudent}>
+                                <form onSubmit={this.updateStudent}>
                                     <div className="form-group mb-3">
                                         <label>Nome</label>
                                         <input type="text" name="nome" onChange={this.handleInput} value={this.state.nome} class="form-control"></input>
@@ -73,7 +113,7 @@ class Addstudent extends Component
                                     </div>
                                     <div className="form-group mb-3">
                                         <label>Telefone</label>
-                                        <input type="text" name="telefone" onChange={this.handleInput} value={this.state.telefone} class="form-control"></input>
+                                        <IMaskInput mask="(000) 00000-0000" type="text" name="telefone" onChange={this.handleInput} value={this.state.telefone} class="form-control"/>
                                         <span className="text-danger">{this.state.error_list.telefone}</span>
                                     </div>
                                     <div className="form-group mb-3">
@@ -88,12 +128,16 @@ class Addstudent extends Component
                                     </div>
                                     <div className="form-group mb-3">
                                         <label>Gênero</label>
-                                        <input type="text" name="genero" onChange={this.handleInput} value={this.state.genero} class="form-control"></input>
+                                        <select type="text" name="genero" onChange={this.handleInput} value={this.state.genero} class="form-control">
+                                        <option value="{this.state.genero}">{this.state.genero}</option>
+                                           <option value="Masculino">Masculino</option>
+                                           <option value="Feminino">Feminino</option>
+                                           <option value="Outro">Outro</option>
+                                        </select>
                                         <span className="text-danger">{this.state.error_list.genero}</span>
                                     </div>
-
                                     <div className="form-group mb-3">
-                                        <button type="submit" className="btn btn-primary btn-sm mt-4">Salvar</button>
+                                        <button type="submit" id="updatebtn" className="btn btn-primary mt-4">Atualizar</button>
                                     </div>
                                 </form>
                             </div>
@@ -105,4 +149,4 @@ class Addstudent extends Component
     }
 }
 
-export default Addstudent
+export default EditarAluno

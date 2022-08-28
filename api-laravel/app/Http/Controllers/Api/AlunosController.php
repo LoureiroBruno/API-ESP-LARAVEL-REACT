@@ -3,13 +3,18 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AlunosRequest;
 use App\Models\Aluno;
+use App\Repositories\EloquentAlunoRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class AlunosController extends Controller
 {
+    public function __construct(private EloquentAlunoRepository $repository)
+    {
+        $this->repository = $repository;
+    }
+
     public function index()
     {
         $students = Aluno::all();
@@ -17,12 +22,10 @@ class AlunosController extends Controller
             'status' => 200,
             'students' => $students
         ]);
-        
     }
 
     public function store(Request $request)
     {
-
         $validator = Validator::make($request->all(),[
             'nome' => 'required|max:191',
             'e_mail'=> 'required|email|max:191',
@@ -33,14 +36,7 @@ class AlunosController extends Controller
                 'validate_err' => $validator->messages(),
             ]);
         } else {
-            $student = new Aluno();
-            $student->nome = $request->input('nome');
-            $student->telefone = $request->input('telefone');
-            $student->e_mail = $request->input('e_mail');
-            $student->data_de_nascimento = $request->input('data_de_nascimento');
-            $student->genero = $request->input('genero');
-            $student->save();
-
+            $this->repository->add($request);
             return response()->json([
                 'status' => 201,
                 'message' => 'Aluno criado com Sucesso!'
@@ -79,13 +75,7 @@ class AlunosController extends Controller
         } else {
             $student = Aluno::find($id);
             if ($student) {
-                $student->nome = $request->input('nome');
-                $student->telefone = $request->input('telefone');
-                $student->e_mail = $request->input('e_mail');
-                $student->data_de_nascimento = $request->input('data_de_nascimento');
-                $student->genero = $request->input('genero');
-                $student->save();
-
+                $this->repository->update($request, $id);
                 return response()->json([
                     'status' => 204,
                     'message' => 'Aluno atualizado com Sucesso!'
