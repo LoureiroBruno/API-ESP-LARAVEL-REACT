@@ -57,7 +57,7 @@ class EditarTurma extends Component
         }
     }
 
-    updateStudent = async (e) => {
+    updateTurma = async (e) => {
         e.preventDefault();
 
         document.getElementById('updatebtn').disabled = true;
@@ -109,7 +109,7 @@ class EditarTurma extends Component
                                 </h2>
                             </div>
                             <div className="card-body">
-                                <form onSubmit={this.updateStudent}>
+                                <form onSubmit={this.updateTurma}>
                                     <div className="form-group mb-3">
                                         <label>Ano Letivo</label>
                                         <input type="year" name="ano_de_execução" onChange={this.handleInput} value={this.state.ano_de_execução} class="form-control" placeholder='Informe o ano letivo.'></input>

@@ -20,7 +20,7 @@ class AdicionarTurma extends Component
         });
     }
     
-    saveStudent = async (e) => {
+    saveTurma = async (e) => {
         e.preventDefault();
 
         const res = await axios.post('http://localhost:8000/api/turmas', this.state);
@@ -62,7 +62,7 @@ class AdicionarTurma extends Component
                                 </h2>
                             </div>
                             <div className="card-body">
-                                <form onSubmit={this.saveStudent}>
+                                <form onSubmit={this.saveTurma}>
                                     <div className="form-group mb-3">
                                         <label>Ano Letivo</label>
                                         <input type="year" name="ano_de_execução" onChange={this.handleInput} value={this.state.ano_de_execução} class="form-control" placeholder='Informe o ano letivo.'></input>
