@@ -30,7 +30,7 @@ Route::apiResource('/alunosturma', AlunosTurmasController::class)->only(['index'
 Route::get('/aluno/{aluno}/turma', function(Aluno $aluno){
     return response()->json([
         'status' => 200,
-        'relacao' =>  $aluno->turma()->with('aluno','turma')->first(),
+        'relacao' =>  $aluno->turma()->with('turma')->first(),
     ]);
 
 });

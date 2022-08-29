@@ -36,6 +36,7 @@ class EditarTurma extends Component
 
         const res = await axios.get(`http://localhost:8000/api/aluno/${stud_id}/turma`);
         
+        console.log(res.data);
         if (res.data.status === 200 && res.data.relacao != null) 
         {
             this.setState({
@@ -44,7 +45,7 @@ class EditarTurma extends Component
                 nível_de_ensino: res.data.relacao.turma.nível_de_ensino,
                 série: res.data.relacao.turma.série,
                 turno: res.data.relacao.turma.turno,
-                nome: res.data.relacao.aluno.nome
+                aluno_id: res.data.relacao.aluno_id
             });
         }
         else 
@@ -107,9 +108,9 @@ class EditarTurma extends Component
                                         <span className="text-danger">{this.state.error_list.turno}</span>
                                     </div>
                                     <div className="form-group mb-3">
-                                        <label>Referente à Aluno</label>
-                                        <input type="text" name="aluno" onChange={this.handleInput} value={this.state.nome} class="form-control" disabled></input>
-                                        <span className="text-danger">{this.state.error_list.nome}</span>
+                                        <label>ID Aluno</label>
+                                        <input type="text" name="aluno" onChange={this.handleInput} value={this.state.aluno_id} class="form-control" disabled></input>
+                                        <span className="text-danger">{this.state.error_list.aluno_id}</span>
                                     </div>
                                 </form>
                             </div>
