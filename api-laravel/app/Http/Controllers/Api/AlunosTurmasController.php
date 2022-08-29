@@ -11,7 +11,10 @@ class AlunosTurmasController extends Controller
 
     public function index(Alunosdeturmas $alunosdeturmas)
     {
-        return response()->json($alunosdeturmas->with('aluno', 'turma')->paginate(5),200);
+        return response()->json([
+            'status' => 200,
+            'relacao' =>  $alunosdeturmas->with('aluno','turma')->get(),
+        ]);
     }
 
     public function store(AlunosTurmasRequest $request)

@@ -63,6 +63,7 @@ class Turmas extends Component
                             <div class="d-grid gap-3 d-md-flex justify-content-md-start">
                                 <Link to={`turmas/${item.id}`} className="btn btn-outline-secondary btn-sm">Editar</Link>
                                 <button type="button" onClick={(e) => this.deleteTurma(e, item.id)} className="btn btn-outline-danger btn-sm">Excluir</button>
+                                <Link to={`turma/${item.id}/alunos`} className="btn btn-link" title='Exibir Alunos'>Detalhes</Link>
                             </div>
                         </td>
                     </tr>
@@ -76,7 +77,7 @@ class Turmas extends Component
                     <div className="col-md-12">
                         <div className="form-group mb-3">
                             <h1>
-                                <Link to={'/'} className="btn btn-dark float-start mb-4">Menu Principal</Link>
+                                <Link to={'/'} className="btn btn-dark float-start mb-4" title='ir para Todos Alunos por Turma'>Menu Principal</Link>
                             </h1>
                         </div>
                     </div>

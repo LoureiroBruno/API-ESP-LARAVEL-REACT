@@ -4,7 +4,6 @@ use App\Http\Controllers\Api\AlunosController;
 use App\Http\Controllers\Api\TurmasController;
 use App\Http\Controllers\Api\AlunosTurmasController;
 use App\Models\Aluno;
-use App\Models\Alunosdeturmas;
 use App\Models\Turma;
 use Illuminate\Support\Facades\Route;
 
@@ -29,10 +28,17 @@ Route::apiResource('/alunosturma', AlunosTurmasController::class)->only(['index'
 
 /** buscar aluno por turma */
 Route::get('/aluno/{aluno}/turma', function(Aluno $aluno){
-    return response()->json($aluno->turma()->with('aluno','turma')->get());
+    return response()->json([
+        'status' => 200,
+        'relacao' =>  $aluno->turma()->with('aluno','turma')->first(),
+    ]);
+
 });
 
 /** buscar todos os alunos por turma */
 Route::get('/turma/{turma}/alunos', function(Turma $turma){
-    return response()->json($turma->aluno()->with('aluno')->get());
+    return response()->json([
+        'status' => 200,
+        'relacao' =>  $turma->aluno()->with('aluno')->get(),
+    ]);
 });
