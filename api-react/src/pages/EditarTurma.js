@@ -39,6 +39,7 @@ class EditarTurma extends Component
         if (res.data.status === 200) 
         {
             this.setState({
+                id: res.data.turma.id,
                 ano_de_execução: res.data.turma.ano_de_execução,
                 nível_de_ensino: res.data.turma.nível_de_ensino,
                 série: res.data.turma.série,
@@ -104,7 +105,7 @@ class EditarTurma extends Component
                     <div className="col-md-6">
                         <div className="card">
                             <div className="card-header">
-                                <h2>Editar Turma
+                                <h2>Editar Turma ID: {this.state.id}
                                     <Link to={'/turmas'} className="btn btn-danger btn-sm float-end">Fechar</Link>
                                 </h2>
                             </div>

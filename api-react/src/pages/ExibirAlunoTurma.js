@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import axios from 'axios';
 import swal from 'sweetalert';
 
-class EditarTurma extends Component 
+class ExibirAlunoTurma extends Component 
 {
 
     nível_de_ensino = {
@@ -72,7 +72,7 @@ class EditarTurma extends Component
                     <div className="col-md-6">
                         <div className="card">
                             <div className="card-header">
-                                <h2>Turma | Identificação: {this.state.id}
+                                <h2>Turma | ID Turma: {this.state.id}
                                     <Link to={'/alunos'} className="btn btn-danger btn-sm float-end">Fechar</Link>
                                 </h2>
                             </div>
@@ -122,4 +122,4 @@ class EditarTurma extends Component
     }
 }
 
-export default EditarTurma
+export default ExibirAlunoTurma
