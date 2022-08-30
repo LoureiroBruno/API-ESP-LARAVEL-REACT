@@ -23,23 +23,37 @@ class Turmas extends Component
         }
     }
 
-    deleteTurma = async (e, id) => {
-
+    deleteTurma(e, id) {
         const thidClickedFunda = e.currentTarget;
         thidClickedFunda.innerText = "Exluindo";
-        
-        const res = await axios.delete(`http://localhost:8000/api/turmas/${id}`);
-        if (res.data.status === 204) 
-        {
-            thidClickedFunda.closest("tr").remove();
 
-            swal({
-                title: "Ecluído!",
-                text: res.data.message,
-                icon: "success",
-                buttons: "OK"
-            })
-        }
+        e.preventDefault();
+        swal({
+            title: "Atenção",
+            text: "Deseja excluir o registro desta turma?" + "\n\n",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then(willDelete => {
+                if (willDelete) {
+                    axios.delete(`http://localhost:8000/api/turmas/${id}`)
+                        .then(res => {
+                            if (res.data.status === 204) {
+                                thidClickedFunda.closest("tr").remove();
+
+                                swal({
+                                    title: "Excluído!",
+                                    text: res.data.message,
+                                    icon: "success",
+                                    buttons: "OK"
+                                })
+                            }
+                        });
+                } else {
+                    window.location = "http://localhost:3000/turmas"
+                }
+            });
     }
 
     render() {

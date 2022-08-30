@@ -49,15 +49,19 @@ class ExibirAlunoTurma extends Component
         else 
         {
             swal({
-                title: "Alerta!",
-                text: "Aluno(a) não possui nenhum registro de turma!" + "\n\n",
+                title: "Aviso",
+                text: "Aluno(a) não possui nenhum registro de turma!" + "\n\n" + "Deseja incluir uma turma a este aluno?",
                 icon: "warning",
-                button: {
-                    text: "OK"
+                buttons: true,
+                Mode: true,
+              })
+              .then((willDelete) => {
+                if (willDelete) {
+                    window.location = "http://localhost:3000/alunosturma"
+                } else {
+                    window.location = "http://localhost:3000/alunos"
                 }
-            }).then(() => {
-                 window.location = "http://localhost:3000/alunosturma"
-            });
+              });
         }
     }
 

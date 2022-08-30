@@ -1,21 +1,19 @@
 import axios from 'axios';
-import React, {Component} from 'react';
-import {Link} from 'react-router-dom';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import swal from 'sweetalert';
 import Moment from 'moment';
 
-class Alunos extends Component 
-{
+class Alunos extends Component {
     state = {
         students: [],
         loading: true,
     }
-    
+
     async componentDidMount() {
 
         const res = await axios.get('http://localhost:8000/api/alunos');
-        if (res.data.status === 200) 
-        {
+        if (res.data.status === 200) {
             this.setState({
                 students: res.data.students,
                 loading: false,
@@ -23,23 +21,37 @@ class Alunos extends Component
         }
     }
 
-    deleteAluno = async (e, id) => {
-
+    deleteAluno(e, id) {
         const thidClickedFunda = e.currentTarget;
         thidClickedFunda.innerText = "Exluindo";
-        
-        const res = await axios.delete(`http://localhost:8000/api/alunos/${id}`);
-        if (res.data.status === 204) 
-        {
-            thidClickedFunda.closest("tr").remove();
 
-            swal({
-                title: "Excluído!",
-                text: res.data.message,
-                icon: "success",
-                buttons: "OK"
-            })
-        }
+        e.preventDefault();
+        swal({
+            title: "Atenção",
+            text: "Deseja excluir o registro deste aluno?" + "\n\n",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then(willDelete => {
+                if (willDelete) {
+                    axios.delete(`http://localhost:8000/api/alunos/${id}`)
+                        .then(res => {
+                            if (res.data.status === 204) {
+                                thidClickedFunda.closest("tr").remove();
+
+                                swal({
+                                    title: "Excluído!",
+                                    text: res.data.message,
+                                    icon: "success",
+                                    buttons: "OK"
+                                })
+                            }
+                        });
+                } else {
+                    window.location = "http://localhost:3000/alunos"
+                }
+            });
     }
 
     render() {
@@ -51,26 +63,26 @@ class Alunos extends Component
             student_HTMLTABLE = <tr><td colSpan="7"> <h2> Exibindo os dados... </h2> </td></tr>
         } else {
             student_HTMLTABLE =
-            this.state.students.map( (item) => {
-                item.data_de_nascimento = Moment().format('DD-MM-YYYY')
-                return (
-                    <tr key={item.id}>
-                        <td>{item.id}</td>
-                        <td>{item.nome}</td>
-                        <td>{item.telefone}</td>
-                        <td>{item.e_mail}</td>
-                        <td>{item.data_de_nascimento}</td>
-                        <td>{item.genero}</td>
-                        <td>
-                            <div class="d-grid gap-3 d-md-flex justify-content-md-start">
-                                <Link to={`alunos/${item.id}`} className="btn btn-outline-secondary btn-sm">Editar</Link>
-                                <button type="button" onClick={(e) => this.deleteAluno(e, item.id)} className="btn btn-outline-danger btn-sm">Excluir</button>
-                                <Link to={`aluno/${item.id}/turma`} className="btn btn-link" title='Exibir Turma'>Detalhes</Link>
-                            </div>
-                        </td>
-                    </tr>
-                );
-            });
+                this.state.students.map((item) => {
+                    item.data_de_nascimento = Moment().format('DD-MM-YYYY')
+                    return (
+                        <tr key={item.id}>
+                            <td>{item.id}</td>
+                            <td>{item.nome}</td>
+                            <td>{item.telefone}</td>
+                            <td>{item.e_mail}</td>
+                            <td>{item.data_de_nascimento}</td>
+                            <td>{item.genero}</td>
+                            <td>
+                                <div class="d-grid gap-3 d-md-flex justify-content-md-start">
+                                    <Link to={`alunos/${item.id}`} className="btn btn-outline-secondary btn-sm">Editar</Link>
+                                    <button type="button" onClick={(e) => this.deleteAluno(e, item.id)} className="btn btn-outline-danger btn-sm">Excluir</button>
+                                    <Link to={`aluno/${item.id}/turma`} className="btn btn-link" title='Exibir Turma'>Detalhes</Link>
+                                </div>
+                            </td>
+                        </tr>
+                    );
+                });
         }
 
         return (
