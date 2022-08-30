@@ -35,8 +35,6 @@ class ExibirAlunoTurma extends Component
         const stud_id = this.props.match.params.id;
 
         const res = await axios.get(`http://localhost:8000/api/aluno/${stud_id}/turma`);
-        
-        console.log(res.data);
         if (res.data.status === 200 && res.data.relacao != null) 
         {
             this.setState({
@@ -52,13 +50,13 @@ class ExibirAlunoTurma extends Component
         {
             swal({
                 title: "Alerta!",
-                text: "Aluno(a) não possui nenhuma turma cadastrada!",
+                text: "Aluno(a) não possui nenhum registro de turma!" + "\n\n",
                 icon: "warning",
                 button: {
                     text: "OK"
                 }
             }).then(() => {
-                window.location = "http://localhost:3000/alunos"
+                 window.location = "http://localhost:3000/alunosturma"
             });
         }
     }

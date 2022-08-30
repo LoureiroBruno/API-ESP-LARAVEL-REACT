@@ -34,7 +34,7 @@ class Alunos extends Component
             thidClickedFunda.closest("tr").remove();
 
             swal({
-                title: "Ecluído!",
+                title: "Excluído!",
                 text: res.data.message,
                 icon: "success",
                 buttons: "OK"

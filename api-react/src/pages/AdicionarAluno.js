@@ -29,7 +29,6 @@ class AdicionarAluno extends Component
 
         if(res.data.status === 201)
         {
-            // console.log(res.data.message);
             swal({
                 title: "Cadastrado!",
                 text: res.data.message,

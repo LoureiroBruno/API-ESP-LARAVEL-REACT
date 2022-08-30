@@ -12,10 +12,7 @@ class ExibirAlunosTurma extends Component
     
     async componentDidMount() {
 
-        const res = await axios.get('http://localhost:8000/api/alunosturma');
-
-        console.log(res.data);
-        
+        const res = await axios.get('http://localhost:8000/api/alunosturma');        
         if (res.data.status === 200) 
         {
             this.setState({
@@ -71,13 +68,15 @@ class ExibirAlunosTurma extends Component
                     <div className="col-md-12">
                         <div className="card">
                             <div className="card-header">
-                                <h2>Todos Alunos por Turma</h2>
+                                <h2>Todos Alunos por Turma
+                                    <Link to={'alunosturma'} className="btn btn-warning float-end">Cadastrar Aluno/Turma</Link>
+                                </h2>
                             </div>
                             <div className="card-body">
                                 <table className="table table-bordered table-striped">
                                     <thead>
                                         <tr>
-                                            <th>ID</th>
+                                            <th>#</th>
                                             <th>Nome</th>
                                             <th>Telefone</th>
                                             <th>E-mail</th>

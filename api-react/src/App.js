@@ -2,6 +2,7 @@ import React from 'react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 
 import ExibirAlunosTurma from './pages/ExibirAlunosTurma';
+import AdicionarAlunosTurma from './pages/AdicionarAlunosTurma';
 
 import Alunos from './pages/Alunos';
 import AdicionarAluno from './pages/AdicionarAluno';
@@ -27,7 +28,8 @@ function App() {
         <Router>
           <Switch>
           <Route exact path="/" component={ExibirAlunosTurma} />
-           
+          <Route exact path="/alunosturma" component={AdicionarAlunosTurma} />
+
             <Route exact path="/alunos" component={Alunos} />
             <Route path="/alunos/store" component={AdicionarAluno} />
             <Route path="/alunos/:id" component={EditarAluno} />

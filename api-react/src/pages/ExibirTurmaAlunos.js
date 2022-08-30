@@ -15,13 +15,28 @@ class ExibirTurmaAlunos extends Component
 
         const stud_id = this.props.match.params.id;
         const res = await axios.get(`http://localhost:8000/api/turma/${stud_id}/alunos`);
-        
+
         console.log(res.data);
-        if (res.data.status === 200) 
+
+        const rel = res.data.relacao
+        if (res.data.status === 200 && rel.length != 0) 
         {
             this.setState({
                 relacao: res.data.relacao,
                 loading: false,
+            });
+        }
+        else 
+        {
+            swal({
+                title: "Alerta!",
+                text: "A Turma não possui nenhum registro de aluno(a)!" + "\n\n",
+                icon: "warning",
+                button: {
+                    text: "OK"
+                }
+            }).then(() => {
+                 window.location = "http://localhost:3000/alunosturma"
             });
         }
     }
@@ -36,7 +51,7 @@ class ExibirTurmaAlunos extends Component
         } else {
             student_HTMLTABLE =
             this.state.relacao.map( (item) => {
-                item.data_de_nascimento = Moment().format('DD-MM-YYYY')
+                item.aluno.data_de_nascimento = Moment().format('DD-MM-YYYY')
                 return (
                     <tr key={item.id}>
                         <td>{item.id}</td>

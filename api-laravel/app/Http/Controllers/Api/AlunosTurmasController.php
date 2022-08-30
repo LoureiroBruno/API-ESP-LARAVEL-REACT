@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AlunosTurmasRequest;
+use Illuminate\Http\Request;
 use App\Models\Alunosdeturmas;
+use Illuminate\Support\Facades\Validator;
 
 class AlunosTurmasController extends Controller
 {
@@ -17,10 +18,25 @@ class AlunosTurmasController extends Controller
         ]);
     }
 
-    public function store(AlunosTurmasRequest $request)
+    public function store(Request $request)
     {
-        return response()
-        ->json(Alunosdeturmas::create($request->all()), 201);
+        $validator = Validator::make($request->all(),[
+            'aluno_id' => 'required',
+            'turma_id'=> 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'validate_err' => $validator->messages(),
+            ]);
+        } else {
+            Alunosdeturmas::create($request->all());
+            return response()->json([
+                'status' => 201,
+                'message' => 'Matrícula realizada com Sucesso!'
+            ]);
+        }
+
     }
 
 }
