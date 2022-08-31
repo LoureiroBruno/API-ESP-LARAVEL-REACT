@@ -15,8 +15,10 @@ return new class extends Migration
     {
         Schema::create('alunosdeturmas', function (Blueprint $table) {
             $table->increments('id');
-            $table->foreignId('aluno_id')->constrained()->onDelete('cascade');
-            $table->foreignId('turma_id');
+            $table->unsignedInteger('aluno_id');
+            $table->foreign('aluno_id')->references('id')->on('alunos')->onDelete('cascade');;
+            $table->unsignedInteger('turma_id');
+            $table->foreign('turma_id')->references('id')->on('turmas')->onDelete('cascade');;
             $table->timestamps();
         });
     }
